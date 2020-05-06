@@ -7,7 +7,10 @@ Sprgin 2020. Conference Draft
 
 ## Required software
 
+VAR results
 - Matlab 18
+
+DSGE results
 - Julia v1.0 or v1.1
 - brookings_pc branch of [DSGE.jl](https://github.com/FRBNY-DSGE/DSGE.jl) v1.0.0
 - [SMC.jl](https://github.com/FRBNY-DSGE/SMC.jl) v0.1.6
