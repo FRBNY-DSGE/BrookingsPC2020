@@ -65,7 +65,7 @@ figure('Position', [0, 0, 700, 600]);
 count=0;
 for jn = indfig
     count=count+1;
-    subplot(ceil(length(indfig1)/2),2,count)
+    subplot(ceil(length(indfig)/2),2,count)
     quantilePlot([0:H]', squeeze(sIRF1(:,jn,round(qqq*ndraws)))); hold on; grid on;
     quantilePlot([0:H]', squeeze(sIRF2(:,jn,round(qqq*ndraws))),[.8941, .1020, .1098]);
     line([0 H],[0 0],'color','k')

@@ -31,7 +31,7 @@ enddate2=2019.5; T12=find(Time==enddate2);
 
 % GLP estimation, sample 1
 resGLP1 = bvarGLP([y(T01:T11,:)],lags,'mcmc',1,'MCMCconst',15,'MNpsi',0,'noc',0,'sur',0,'Ndraws',M);
-    
+
 % compute median IRF of U, sample 1
 ndraws = size(resGLP1.mcmc.beta,3);
 Dirf1 = zeros(H+1,size(y,2),ndraws);
@@ -40,7 +40,7 @@ for jg = 1:ndraws
 end
 medU=median(squeeze(Dirf1(:,1,:))')';
 
-% run disturbance smoother, sample 1 
+% run disturbance smoother, sample 1
 rng(10)
 CF1=zeros(n,H+1,ndraws);
 for j=1:ndraws
@@ -51,12 +51,12 @@ for j=1:ndraws
     varC=zeros(n*lags,1);
     varT=[B(2:end,:)';[eye(n*(lags-1)) zeros(n*(lags-1),n)]];
     varH=zeros(n*lags,n); varH(1:n,1:n)=chol(squeeze(resGLP1.mcmc.sigma(:,:,j)))';
-    
+
     s00=zeros(n*lags,1);
     P00=zeros(n*lags,n*lags);
-    
+
     DrawStates=DisturbanceSmootherVAR(medU,varc,varZ,varG,varC,varT,varH,s00,P00,H+1,1,n*lags,n,'smoother');
-    CF1(:,:,j)=DrawStates(1:n,:);    
+    CF1(:,:,j)=DrawStates(1:n,:);
 end
 CF1=permute(CF1,[2,1,3]);
 iw1=squeeze(CF1(:,8,:)-CF1(:,6,:)+CF1(:,5,:)+cumsum(CF1(:,4,:)/4));
@@ -77,12 +77,12 @@ for j=1:ndraws
     varC=zeros(n*lags,1);
     varT=[B(2:end,:)';[eye(n*(lags-1)) zeros(n*(lags-1),n)]];
     varH=zeros(n*lags,n); varH(1:n,1:n)=chol(squeeze(resGLP2.mcmc.sigma(:,:,j)))';
-    
+
     s00=zeros(n*lags,1);
     P00=zeros(n*lags,n*lags);
-    
+
     DrawStates=DisturbanceSmootherVAR(medU,varc,varZ,varG,varC,varT,varH,s00,P00,H+1,1,n*lags,n,'smoother');
-    CF2(:,:,j)=DrawStates(1:n,:);    
+    CF2(:,:,j)=DrawStates(1:n,:);
 end
 CF2=permute(CF2,[2,1,3]);
 iw2=squeeze(CF2(:,8,:)-CF2(:,6,:)+CF2(:,5,:)+cumsum(CF2(:,4,:)/4));
@@ -95,7 +95,7 @@ indfig=[1 2 3 4 7 9 8 5 6];     % variable position of responses to plot
 
 figure('Position', [0, 0, 700, 600]);
 count=0;
-for jn = indfig1
+for jn = indfig
     count=count+1;
     subplot(3,3,count)
     quantilePlot([0:H]', squeeze(sCF1(:,jn,round(qqq*ndraws)))); hold on; grid on;
@@ -105,6 +105,6 @@ for jn = indfig1
     ylabel(YLABEL(jn))
     title(series(jn));
 end
-aux=subplot(3,3,1); plot([0:H]', medU,'--','LineWidth',3,'color',[.2157, .4941, .7216]); 
+aux=subplot(3,3,1); plot([0:H]', medU,'--','LineWidth',3,'color',[.2157, .4941, .7216]);
 limitsy=get(aux,'ylim'); subplot(3,3,2); ylim(limitsy);
 subplot(3,3,1); plots=get(gca, 'Children'); legend(plots([7 4]),{'pre 1994','post 1994'},'Location','northeast');
