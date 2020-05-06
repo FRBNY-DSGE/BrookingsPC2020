@@ -3,7 +3,7 @@
 Replication files for
 ["What's Up with the Phillips Curve?"](https://www.brookings.edu/bpea-articles/whats-up-with-the-phillips-curve/)
 by Marco Del Negro, Michele Lenza, Giorgio E. Primiceri, and Andrea Tambalotti, *Brookings Papers on Economic Activity*,
-Sprgin 2020. Conference Draft
+Spring 2020. Conference Draft
 
 ## Required software
 
@@ -41,7 +41,13 @@ hand side of this screen, and then clicking "Download ZIP".
 ## Directory structure
 
 
-## How to run the VAR code
-See the readme.docx in src/ReplicationFilesVAR.
+## How to run the [VAR code](https://github.com/FRBNY-DSGE/BrookingsPC2020/tree/master/src/ReplicationFilesVAR)
+See the [readme.docx](https://github.com/FRBNY-DSGE/BrookingsPC2020/blob/master/src/ReplicationFilesVAR/readme.docx) in src/ReplicationFilesVAR.
 
-## How to run the DSGE code
+## How to run the [DSGE code](https://github.com/FRBNY-DSGE/BrookingsPC2020/tree/master/src/ReplicationFilesDSGE)
+
+Disclaimer
+------
+The VAR code is copyright of Giorgio Primiceri. The DSGE code is copyright of the authors and the Federal Reserve Bank of New York. You may reproduce, use, modify, make derivative works of, and distribute and this code in whole or in part so long as you keep this notice in the documentation associated with any distributed works. Neither the name of the Federal Reserve Bank of New York (FRBNY) nor the names of any of the authors may be used to endorse or promote works derived from this code without prior written permission. Portions of the code attributed to third parties are subject to applicable third party licenses and rights. By your use of this code you accept this license and any applicable third party license.
+
+THIS CODE IS PROVIDED ON AN "AS IS" BASIS, WITHOUT ANY WARRANTIES OR CONDITIONS OF ANY KIND, EITHER EXPRESS OR IMPLIED, INCLUDING WITHOUT LIMITATION ANY WARRANTIES OR CONDITIONS OF TITLE, NON-INFRINGEMENT, MERCHANTABILITY OR FITNESS FOR A PARTICULAR PURPOSE, EXCEPT TO THE EXTENT THAT THESE DISCLAIMERS ARE HELD TO BE LEGALLY INVALID. FRBNY IS NOT, UNDER ANY CIRCUMSTANCES, LIABLE TO YOU FOR DAMAGES OF ANY KIND ARISING OUT OF OR IN CONNECTION WITH USE OF OR INABILITY TO USE THE CODE, INCLUDING, BUT NOT LIMITED TO DIRECT, INDIRECT, INCIDENTAL, CONSEQUENTIAL, PUNITIVE, SPECIAL OR EXEMPLARY DAMAGES, WHETHER BASED ON BREACH OF CONTRACT, BREACH OF WARRANTY, TORT OR OTHER LEGAL OR EQUITABLE THEORY, EVEN IF FRBNY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH DAMAGES OR LOSS AND REGARDLESS OF WHETHER SUCH DAMAGES OR LOSS IS FORESEEABLE.
