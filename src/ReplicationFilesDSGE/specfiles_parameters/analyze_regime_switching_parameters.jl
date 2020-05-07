@@ -1,8 +1,11 @@
 using DSGE, Plots, SMC, JLD2, FileIO, Statistics, Dates, ModelConstructors
 using Plots.PlotMeasures, ColorTypes
 using DSGEModels, Printf, DataFrames
+
+replicate_exact = true
+
 outer = nothing
-include("$DSGEJL/ethan/proc/df_to_tex.jl")
+include("../df_to_tex.jl")
 include("../util.jl")
 
 gr()
@@ -94,7 +97,7 @@ for model in ["m1002"]#, "m805", "m904", "smets_wouters_orig", "smets_wouters"]
         elseif model == "smets_wouters"
             m = SmetsWouters(ss)
         end
-        standard_spec!(m, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10021, cdid = 1)
+        standard_spec!(m, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10021, cdid = 1, replicate_exact = replicate_exact)
         m <= Setting(:friday, "true", true, "friday", "estimation ran on friday")
         m <= Setting(:npart, "20000", true, "npart", "number of SMC particles")
         m <= Setting(:reg, "2", true, "reg", "number of regimes")

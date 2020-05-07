@@ -3,9 +3,9 @@ include("../includeall.jl")
 # ENV["frbnyjuliamemory"] = "1G"
 
 ## What to do?
-run_irfs         = false
+run_irfs         = true
 do_rev_transform = false
-do_add_workers   = false
+do_add_workers   = true
 make_plots       = true
 n_workers = 50
 
@@ -76,13 +76,13 @@ custom_settings2 = Dict{Symbol,Setting}(:add_laborshare_measurement =>
 
 fp = dirname(@__FILE__)
 m1 = Model1002("ss10"; custom_settings = custom_settings1)
-standard_spec200129!(m1, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10021, cdid = 1)
+standard_spec!(m1, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10021, cdid = 1)
 m1 <= Setting(:period, "r1", true, "period", "period for this exercse (first or second)")
 m1 <= Setting(:preZLB, "false", true, "preZLB", "")
 m1 <= Setting(:npart, "15000", true, "npart", "")
 m1 <= Setting(:use_population_forecast, false)
 m2 = Model1002("ss10"; custom_settings = custom_settings2)
-standard_spec200129!(m2, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10022, cdid = 1)
+standard_spec!(m2, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10022, cdid = 1)
 m2 <= Setting(:period, "r2", true, "period", "period for this exercse (first or second)")
 m2 <= Setting(:preZLB, "false", true, "preZLB", "")
 m2 <= Setting(:npart, "15000", true, "npart", "")
