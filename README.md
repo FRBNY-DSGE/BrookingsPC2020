@@ -45,6 +45,7 @@ hand side of this screen, and then clicking "Download ZIP".
 See the [readme.docx](https://github.com/FRBNY-DSGE/BrookingsPC2020/blob/master/src/ReplicationFilesVAR/readme.docx) in src/ReplicationFilesVAR.
 
 ## How to run the [DSGE code](https://github.com/FRBNY-DSGE/BrookingsPC2020/tree/master/src/ReplicationFilesDSGE)
+See the [readme.txt](https://github.com/FRBNY-DSGE/BrookingsPC2020/blob/master/src/ReplicationFilesDSGE/readme.txt) in src/ReplicationFilesDSGE.
 
 Disclaimer
 ------
