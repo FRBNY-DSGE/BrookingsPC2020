@@ -21,10 +21,10 @@ include("forecast/cholesky_responses.jl")
 include("forecast/impulse_responses.jl")
 include("forecast/misc.jl")
 include("forecast/util.jl")
-#include("forecast/dsgevar.jl")
-#include("forecast/dsgevar_impulse_responses.jl")
+include("forecast/dsgevar.jl")
+include("forecast/dsgevar_impulse_responses.jl")
 #include("forecast/dsgevar_estimate.jl")
-#include("forecast/var_impulse_responses.jl")
+include("forecast/var_impulse_responses.jl")
 
 # scenarios/
 #include("scenarios/brookingsPC_scenarios.jl")
