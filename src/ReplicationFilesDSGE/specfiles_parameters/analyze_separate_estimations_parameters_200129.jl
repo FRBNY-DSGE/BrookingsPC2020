@@ -3,9 +3,9 @@ using DSGEModels, Printf, DataFrames, ColorTypes, Nullables
 using Plots.PlotMeasures
 using KernelDensity
 
-replicate_exact = true
+save_orig = true
 
-outdir = if replicate_exact
+outdir = if save_orig
     "save_orig"
 else
     "save"
