@@ -81,9 +81,11 @@ models = Dict{Symbol,AbstractDSGEModel}()
 # for model in [:H1, :κp, :zetap]
 for model in [:H1, :κp, :MPparam]
     m = Model1002("ss10"; custom_settings = custom_settings1)
-    standard_spec200129!(m, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10021, cdid = 1, save_orig = save_orig)
+    standard_spec!(m, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10021, cdid = 1, save_orig = save_orig)
     m <= Setting(:period, "r1", true, "period", "period for this exercse (first or second)")
     m <= Setting(:npart, "15000", true, "npart", "")
+    m <= Setting(:preZLB, false, true, "preZLB", "")
+    m <= Setting(:reg2start, "900331", true, "reg2start", "")
     m <= Setting(:use_population_forecast, false)
     DSGE.update!(m, load_draws(m, :mode; use_highest_posterior_value = true))
     models[model] = m
@@ -92,9 +94,11 @@ showparams = [:ζ_p, :ψ1, :ψ2, :ψ3, :ρ, :ι_p, :ι_w]
 
 # Get H2
 m2 = Model1002("ss10"; custom_settings = custom_settings2)
-standard_spec200129!(m2, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10022, cdid = 1, save_orig = save_orig)
+standard_spec!(m2, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10022, cdid = 1, save_orig = save_orig)
 m2 <= Setting(:period, "r2", true, "period", "period for this exercse (first or second)")
 m2 <= Setting(:npart, "15000", true, "npart", "period for this exercse (first or second)")
+m2 <= Setting(:preZLB, false, true, "preZLB", "")
+m2 <= Setting(:reg2start, "900331", true, "reg2start", "")
 m2 <= Setting(:use_population_forecast, false)
 DSGE.update!(m2, load_draws(m2, :mode; use_highest_posterior_value = true))
 models[:H2] = m2
