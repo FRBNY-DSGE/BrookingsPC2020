@@ -1,4 +1,7 @@
 using DSGE, ModelConstructors, Dates, LinearAlgebra, Test
+
+save_orig = true
+
 include("../includeall.jl")
 # ENV["frbnyjuliamemory"] = "1G"
 
@@ -76,13 +79,13 @@ custom_settings2 = Dict{Symbol,Setting}(:add_laborshare_measurement =>
 
 fp = dirname(@__FILE__)
 m1 = Model1002("ss10"; custom_settings = custom_settings1)
-standard_spec!(m1, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10021, cdid = 1)
+standard_spec!(m1, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10021, cdid = 1, save_orig = save_orig)
 m1 <= Setting(:period, "r1", true, "period", "period for this exercse (first or second)")
 m1 <= Setting(:preZLB, "false", true, "preZLB", "")
 m1 <= Setting(:npart, "15000", true, "npart", "")
 m1 <= Setting(:use_population_forecast, false)
 m2 = Model1002("ss10"; custom_settings = custom_settings2)
-standard_spec!(m2, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10022, cdid = 1)
+standard_spec!(m2, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10022, cdid = 1, save_orig = save_orig)
 m2 <= Setting(:period, "r2", true, "period", "period for this exercse (first or second)")
 m2 <= Setting(:preZLB, "false", true, "preZLB", "")
 m2 <= Setting(:npart, "15000", true, "npart", "")
@@ -102,6 +105,7 @@ if run_irfs
     if do_add_workers
         addprocs_frbny(n_workers)
         @everywhere using DSGE, DSGEModels, OrderedCollections
+        @everywhere include("../includeall.jl")
     end
 
     parallel = do_add_workers ? true : false

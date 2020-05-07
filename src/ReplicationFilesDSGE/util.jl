@@ -13,13 +13,18 @@ function standard_spec!(m::AbstractDSGEModel, vint::String,
                         cdid::Int = cond_id(m),
                         fcast_date::Dates.Date = Dates.lastdayofquarter(Dates.today()),
                         fcast_end::Date = DSGE.quartertodate("2024-Q4"),
-                        four_folders_down::Bool = false)
+                        four_folders_down::Bool = false,
+                        save_orig::Bool = false)
     m <= Setting(:data_vintage, vint)
     if four_folders_down
         m <= Setting(:saveroot, joinpath(directory_path, "../../../../save/"))
         m <= Setting(:dataroot, joinpath(directory_path, "../../../../save/input_data"))
     else
         m <= Setting(:saveroot, joinpath(directory_path, "../../../save/"))
+        m <= Setting(:dataroot, joinpath(directory_path, "../../../save/input_data"))
+    end
+    if save_orig
+        m <= Setting(:saveroot, joinpath(directory_path, "../../../save_orig/"))
         m <= Setting(:dataroot, joinpath(directory_path, "../../../save/input_data"))
     end
     m <= Setting(:data_id, dsid)

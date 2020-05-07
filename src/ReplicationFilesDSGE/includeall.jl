@@ -1,8 +1,9 @@
 # This file includes any scripts written specifically for the
 # Brookings project on the Phillips Curve
-using DataFrames, Dates, DSGE, DSGEModels, JLD2, KernelDensity, MAT, ModelConstructors, Nullables, OrderedCollections
+using DataFrames, Dates, DSGE, DSGEModels, JLD2, KernelDensity, LinearAlgebra, MAT, ModelConstructors, Nullables, OrderedCollections
 using Plots, Printf, Nullables, StatsPlots
 using Plots.PlotMeasures, ColorTypes
+using LinearAlgebra
 
 include("util.jl")
 
