@@ -1,8 +1,17 @@
 using DSGE, Plots, SMC, JLD2, FileIO, Statistics, Dates, ModelConstructors
-using DSGEModels, Printf, DataFrames, ColorTypes
+using DSGEModels, Printf, DataFrames, ColorTypes, Nullables
 using Plots.PlotMeasures
+using KernelDensity
 
-include("$DSGEJL/ethan/proc/df_to_tex.jl")
+replicate_exact = true
+
+outdir = if replicate_exact
+    "save_orig"
+else
+    "save"
+end
+
+include("../df_to_tex.jl")
 include("../util.jl")
 m = Model1002()
 gr()
@@ -53,7 +62,7 @@ for model in ["m1002"]#, "m805", "m904", "smets_wouters_orig"]
         end
     end
         standard_spec!(m, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10021, cdid = 1)
-        m <= Setting(:saveroot, "../../../save/200129/")
+        m <= Setting(:saveroot, "../../../$(outdir)/")
         m <= Setting(:npart, "15000", true, "npart", "number of SMC particles")
         m <= Setting(:use_population_forecast, false)
 
@@ -98,7 +107,7 @@ for model in ["m1002"]#, "m805", "m904", "smets_wouters_orig"]
                     input_file_name = get_forecast_input_file(m, :full)
                     cloud = load(replace(replace(input_file_name, ".h5" => ".jld2"), "smcsave" => "smc_cloud"), "cloud")
                     postmode_r2 = load_draws(m, :mode)
-                    figure_save_path = "$fp/../../../save/200129/output_data/$(spec(m))/$(subspec(m))/estimate/figures/"
+                    figure_save_path = "$fp/../../../$(outdir)/output_data/$(spec(m))/$(subspec(m))/estimate/figures/"
                     @show figure_save_path
                     @show ZLB
                     for ind in inds
@@ -147,7 +156,7 @@ for model in ["m1002"]#, "m805", "m904", "smets_wouters_orig"]
                               xlims = (start, stop))
 
                         savefig(p, "$(figure_save_path)/$(param_label)_$(ZLB).png")
-                        add_tex(fid, "$(fp)/../../../save/200129/output_data/$(model)/$(subspec(m))/estimate/figures/$(param_label)_$(ZLB).png")
+                        add_tex(fid, "$(fp)/../../../$(outdir)/output_data/$(model)/$(subspec(m))/estimate/figures/$(param_label)_$(ZLB).png")
                     end
                     if model == "m1002"
                         kdep, kdew = draw_κ(m)
@@ -203,7 +212,7 @@ for model in ["m1002"]#, "m805", "m904", "smets_wouters_orig"]
                                       xlims = (start, stop), normalize = :pdf)
                             end
                             savefig(p, "$(figure_save_path)/$(param_label)_$(ZLB).png")
-                            add_tex(fid, "$(fp)/../../../save/200129/output_data/$(model)/$(subspec(m))/estimate/figures/$(param_label)_$(ZLB).png")
+                            add_tex(fid, "$(fp)/../../../$(outdir)/output_data/$(model)/$(subspec(m))/estimate/figures/$(param_label)_$(ZLB).png")
                         end
                     end
                 catch err
