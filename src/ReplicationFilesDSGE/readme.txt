@@ -24,7 +24,6 @@ Replicating Figure 6.6 (IRFs with Phillips curve slope regime-switching)
  - Run specfiles_irfs/dsgevarirfs_hrs_pic_ls_wpi_spec1002_22_2019Q4_1118.jl
  - The IRF pdfs are saved in save_orig/output_data/m1002/ss10/forecast/figures (names start with brook (names start with brookings_dsgevarirf)
 
-
 Replicating Figure 7.1 (forecasts with alternative policies and with Phillips cruve slope regime-switching)
  - Run specfiles_estim/spec1002_forecasts.jl
  - The forecast pdfs are saved in save_orig/output_data/m1002/ss10/forecast/figures (can be found with ls *forecast*)
