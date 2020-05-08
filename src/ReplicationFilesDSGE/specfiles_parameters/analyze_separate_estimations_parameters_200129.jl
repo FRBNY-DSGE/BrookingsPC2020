@@ -28,7 +28,7 @@ fid = open("$fp/../../../docs/dsge_parameters/dsge_parameters_separate_estimatio
 mdds = DataFrame(model = String[], prior = String[], period = String[], half = String[], mdd = Float64[])
 
 
-for model in ["m1002"]#, "m805", "m904", "smets_wouters_orig"]
+for model in ["m1002"]
    if model == "smets_wouters_orig"
         @printf fid "\\section{SW Orig -- Half 1, Half 2}"
     else
@@ -70,13 +70,11 @@ for model in ["m1002"]#, "m805", "m904", "smets_wouters_orig"]
 
         for period in ["full_incZLB", "full_preZLB"]
             if period == "full_incZLB"
-                #   m <= Setting(:incZLB, true, true, "incZLB", "")
                 m <= Setting(:preZLB, false, true, "preZLB", "")
                 ZLB1 = "incZLB"
                 reg_splits = ["900331"]
                 @printf fid "\\subsubsection{Including ZLB}"
             elseif period == "full_preZLB"
-                #     m <= Setting(:incZLB, false, false, "incZLB", "")
                 m <= Setting(:preZLB, true, true, "preZLB", "")
                 ZLB1 = "preZLB"
                 reg_splits = ["840331", "900331"]
@@ -137,18 +135,13 @@ for model in ["m1002"]#, "m805", "m904", "smets_wouters_orig"]
                         end
                         param_label = replace(replace(replace(DSGE.detexify(m.parameters[ind].tex_label),
                                                               "\\" => "", ), "{" => ""), "}" => "")
-                        # p = histogram(1:size(draws_r1, 1), draws_r1[:, ind], color = :blue, alpha = 0.5, label = "Pre 1990",
                         p = histogram(1:size(draws_r1, 1), draws_r1[:, ind], color = RGB(55. / 255., 126. / 255., 184. / 255.), alpha = 0.5, label = "Pre 1990",
-                                      #title = "$(param_label), $(pr), $(period), $(reg_split)",
                                       bins = 100,
                                       normalize = :pdf, xlims = (start, stop),
                                       left_margin=20px)
-                        # histogram!(p, 1:size(draws_r2, 1), draws_r2[:, ind], color = :red,
                         histogram!(p, 1:size(draws_r2, 1), draws_r2[:, ind], color = RGB(.8941, .1020, .1098),
                                    alpha = 0.5, label = "Post 1990", bins = 100, normalize = :pdf,
                                    xlims = (start, stop), left_margin=20px, xtickfont = font(12), ytickfont = font(12))
-                        # vline!([postmode_r1[ind]], label = "Mode H1", color = :blue)
-                        # vline!([postmode_r2[ind]], label = "Mode H2", color = :red)
                         plot!(p, range(start, length = 1000, stop = stop),
                               pdf.(get(m.parameters[ind].prior),
                                    range(start, length = 1000, stop = stop)),
@@ -171,11 +164,8 @@ for model in ["m1002"]#, "m805", "m904", "smets_wouters_orig"]
                                 get_κw(m, reshape(postmode_r1, 1, DSGE.n_parameters(m))),
                                 get_κw(m, reshape(postmode_r2, 1, DSGE.n_parameters(m)))
                             end
-                            # p = histogram(1:size(r1draws, 1), r1draws, color = :blue, alpha = 0.5,
-                            #               label = "Pre 1990",
                             p = histogram(1:size(r1draws, 1), r1draws, color = RGB(55. / 255., 126. / 255., 184. / 255.),
                                           alpha = 0.5, label = "Pre 1990",
-                                          #title = "$(param_label), $(pr), $(period), $(reg_split)",
                                           bins = 100,
                                           normalize = :pdf,
                                           left_margin=20px,
@@ -185,8 +175,6 @@ for model in ["m1002"]#, "m805", "m904", "smets_wouters_orig"]
                                        label = "Post 1990", bins = 100, normalize = :pdf,
                                        left_margin=20px, xtickfont = font(12), ytickfont = font(12),
                                        right_margin = 10px)
-                            # vline!([r1postmode], label = "Mode H1", color = :blue)
-                            # vline!([r2postmode], label = "Mode H2", color = :red)
                             max1 = maximum(r1draws)
                             max2 = maximum(r2draws)
                             max12 = max(max1, max2)
@@ -227,5 +215,4 @@ for model in ["m1002"]#, "m805", "m904", "smets_wouters_orig"]
     end
 end
 
-# df_to_tex_long("$fp/../../../docs/dsge_parameters/mdds_table_separate_estimations.tex", mdds)
 close(fid)

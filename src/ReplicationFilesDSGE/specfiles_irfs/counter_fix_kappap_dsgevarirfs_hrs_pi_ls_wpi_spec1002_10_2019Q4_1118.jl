@@ -1,6 +1,6 @@
 using DSGE, ModelConstructors, Dates, LinearAlgebra, Test, NLsolve, Roots
 include("../includeall.jl")
-# ENV["frbnyjuliamemory"] = "1G"
+
 
 save_orig = true
 
@@ -16,9 +16,6 @@ density_bands = [.9]
 
 # Set up DSGE-VAR system
 lags = 4
-# observables = [:LaborProductivityGrowthNoME, :Hours, :obs_corepce,
-#                :laborshare_t, :NominalWageGrowth]
-# shocks = [:zp_sh, :b_sh, :rm_sh, :λ_f_sh, :ztil_sh]
 shocks = Vector{Symbol}(undef,0) # empty implies all shocks
 observables = [:obs_hours, :π_t, :laborshare_t, :NominalWageGrowth]
 obs_shock = :obs_hours
@@ -43,21 +40,7 @@ xlabels_dict[:π_t] = "horizon"
 xlabels_dict[:laborshare_t] = "horizon"
 xlabels_dict[:NominalWageGrowth] = "horizon"
 
-# ylims_dict[:π_t] = (-0.1, 0.25)
-# ylims_dict[:obs_corepce] = (-0.1, 0.25)
-# ylims_dict[:obs_wages] = (-0.1, 0.25)
-# ylims_dict[:Hours] = (-0.1, 2.)
-# ylims_dict[:Wages] = (-0.25, 0.8)
-# ylims_dict[:NominalWageGrowth] = (-0.1, 1.0)
-# ylims_dict[:laborshare_t] = (-0.25, 1.0)
-# ylims_dict[:laborproductivity] = (-0.4, 0.5)
-# ylims_dict[:MarginalCost] = (-0.1, 1.0)
-
 ## Set up model and data for subsamples
-# dsid is "model spec"sample number, e.g. 10021
-# cdid indicates which variables ordering for
-# conditional forecast.
-# cdid = 1 => hours first and 1pp increase
 custom_settings1 = Dict{Symbol,Setting}(:add_laborshare_measurement =>
                                         Setting(:add_laborshare_measurement, true),
                                         :hours_first_observable =>
@@ -78,7 +61,6 @@ custom_settings2 = Dict{Symbol,Setting}(:add_laborshare_measurement =>
                                                 false))
 fp = dirname(@__FILE__)
 models = Dict{Symbol,AbstractDSGEModel}()
-# for model in [:H1, :κp, :zetap]
 for model in [:H1, :κp, :MPparam]
     m = Model1002("ss10"; custom_settings = custom_settings1)
     standard_spec!(m, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10021, cdid = 1, save_orig = save_orig)
@@ -102,13 +84,6 @@ m2 <= Setting(:reg2start, "900331", true, "reg2start", "")
 m2 <= Setting(:use_population_forecast, false)
 DSGE.update!(m2, load_draws(m2, :mode; use_highest_posterior_value = true))
 models[:H2] = m2
-
-#= # Update to account for zetap switching
-θ_zetap = map(x -> x.value, models[:zetap].parameters)
-models[:zetap] <= Setting(:fix_ζ_p, models[:zetap][:ζ_p].value)
-θ_zetap[models[:zetap].keys[:ζ_p]] = models[:H2][:ζ_p].value
-DSGE.update!(models[:zetap], θ_zetap)
-=#
 
 # Update mp rule coefficients
 θ_MPparam = map(x -> x.value, models[:MPparam].parameters)
@@ -156,7 +131,6 @@ function f(x)
                                           n_parameters(models[:κp])))
 end
 
-# out1 = nlsolve(f!, [models[:κp][:ζ_p].value])
 models[:κp] <= Setting(:fix_ζ_p, models[:κp][:ζ_p].value)
 out2 = find_zero(f, (1e-6, 1-1e-6), Bisection())
 θ = map(x -> x.value, models[:κp].parameters)
@@ -217,15 +191,13 @@ for (dfs, pname) in zip([df_obss_cholesky, df_obss_maxBC], [:cholesky, :maxBC])
         else
             the_title = DSGE.describe_series(models[:H1], var, :pseudo, detexify = detexify_title)
         end
-        p = plot(1:20, dfs[:H1][!,var], label = "Pre 1990", color = RGB(55. / 255., 126. / 255., 184. / 255.), # title = the_title,
+        p = plot(1:20, dfs[:H1][!,var], label = "Pre 1990", color = RGB(55. / 255., 126. / 255., 184. / 255.),
                  legend = :bottomright, linewidth = 2,
                  xtickfont = font(12), ytickfont = font(12),
                  left_margin = 50px, right_margin = 10px,
                  bottom_margin = 40px, xlabel = "horizon", ylabel = ylabels_dict[var])
         plot!(p, 1:20, dfs[:H2][!,var], label = "Post 1990", color = RGB(.8941, .1020, .1098),
               linewidth = 2)
-        # plot!(p, 1:20, dfs[:zetap][!,var], label = "Counterfactual Slope", color = :black,
-        #       linewidth = 2)
         plot!(p, 1:20, dfs[:κp][!,var], label = "Counterfactual Slope", color = :black,
               linewidth = 2)
         plot!(p, 1:20, dfs[:MPparam][!,var], label = "Counterfactual Policy", color = :black,
@@ -233,7 +205,6 @@ for (dfs, pname) in zip([df_obss_cholesky, df_obss_maxBC], [:cholesky, :maxBC])
               linewidth = 2, ylims = ylims_dict[var])
         plot_dict[pname][var] = p
 
-        # savefig(p, figurespath(models[:H1], "forecast", "counter_fix_kappap_wpolicy_dsgevarirf_" * string(DSGE.detexify(var)) * "_" * string(pname) * "_variables_hrs_pi_ls_wpi.pdf"))
         savefig(p, figurespath(models[:H1], "forecast", "counter_fix_kappap_dsgevarirf_" * string(DSGE.detexify(var)) * "_" * string(pname) * "_variables_hrs_pi_ls_wpi.pdf"))
     end
 end
