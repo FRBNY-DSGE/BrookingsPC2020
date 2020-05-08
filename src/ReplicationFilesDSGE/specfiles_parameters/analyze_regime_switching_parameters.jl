@@ -1,8 +1,9 @@
 using DSGE, Plots, SMC, JLD2, FileIO, Statistics, Dates, ModelConstructors
 using Plots.PlotMeasures, ColorTypes
 using DSGEModels, Printf, DataFrames
+using Nullables, KernelDensity
 
-replicate_exact = true
+save_orig = true
 
 outer = nothing
 include("../df_to_tex.jl")
@@ -97,7 +98,7 @@ for model in ["m1002"]#, "m805", "m904", "smets_wouters_orig", "smets_wouters"]
         elseif model == "smets_wouters"
             m = SmetsWouters(ss)
         end
-        standard_spec!(m, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10021, cdid = 1, replicate_exact = replicate_exact)
+        standard_spec!(m, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10021, cdid = 1, save_orig = save_orig)
         m <= Setting(:friday, "true", true, "friday", "estimation ran on friday")
         m <= Setting(:npart, "20000", true, "npart", "number of SMC particles")
         m <= Setting(:reg, "2", true, "reg", "number of regimes")
@@ -127,7 +128,7 @@ for model in ["m1002"]#, "m805", "m904", "smets_wouters_orig", "smets_wouters"]
                         @error "bad $ss $period $reg_split. Delete it and re-run with correct code with correct number parameters"
                     end
                     @show "saving figures"
-                    figure_save_path = "$fp/../../../save/output_data/$(spec(m))/$(subspec(m))/estimate/figures/"
+                    figure_save_path = "$fp/../../../save_orig/output_data/$(spec(m))/$(subspec(m))/estimate/figures/"
                     @show figure_save_path
                     if !isdir(figure_save_path)
                         mkdir(figure_save_path)
