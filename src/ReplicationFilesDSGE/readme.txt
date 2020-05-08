@@ -28,7 +28,6 @@ Replicating Figure 7.1 (forecasts with alternative policies and with Phillips cr
  - Run specfiles_estim/spec1002_forecasts.jl
  - The forecast pdfs are saved in save_orig/output_data/m1002/ss10/forecast/figures (can be found with ls *forecast*)
 
-
 Replicating Figure C1 (histograms of selected parameters with separate estimations half1 and half2):
  - See Figure 6.2 (this script also replicates this figure)
 
