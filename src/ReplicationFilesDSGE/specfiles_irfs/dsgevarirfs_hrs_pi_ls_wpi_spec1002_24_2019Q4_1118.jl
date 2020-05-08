@@ -5,9 +5,9 @@ include("../includeall.jl")
 save_orig = true
 
 ## What to do?
-run_irfs         = false
+run_irfs         = true
 do_rev_transform = false
-do_add_workers   = false
+do_add_workers   = true
 make_plots       = true
 n_workers = 50
 
