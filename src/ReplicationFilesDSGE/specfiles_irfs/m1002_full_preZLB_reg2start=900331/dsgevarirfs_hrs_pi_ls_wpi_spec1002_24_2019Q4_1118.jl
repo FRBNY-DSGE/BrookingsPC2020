@@ -2,10 +2,12 @@ using DSGE, ModelConstructors, Dates, LinearAlgebra, Test
 include("../../includeall.jl")
 # ENV["frbnyjuliamemory"] = "1G"
 
+save_orig = true
+
 ## What to do?
-run_irfs         = false
+run_irfs         = true
 do_rev_transform = false
-do_add_workers   = false
+do_add_workers   = true
 make_plots       = true
 n_workers = 50
 
@@ -62,7 +64,7 @@ custom_settings = Dict{Symbol,Setting}(:add_laborshare_measurement =>
                                                 false))
 fp = dirname(@__FILE__)
 m = Model1002("ss24"; custom_settings = custom_settings)
-standard_spec!(m, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10021, cdid = 1, four_folders_down = true)
+standard_spec!(m, vint, fp; fcast_date = Date(2019, 12, 31), dsid = 10021, cdid = 1, four_folders_down = true, save_orig = save_orig)
 m <= Setting(:period, "full_preZLB", true, "period", "period for this exercise (first or second)")
 m <= Setting(:date_regime2_start_text, "900331", true, "reg2start",
              "The text version to be saved of when regime 2 starts")
@@ -85,6 +87,7 @@ if run_irfs
     if do_add_workers
         addprocs_frbny(n_workers)
         @everywhere using DSGE, DSGEModels, OrderedCollections
+        @everywhere include("../../includeall.jl")
     end
 
     parallel = do_add_workers ? true : false
