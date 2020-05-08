@@ -24,8 +24,13 @@ function standard_spec!(m::AbstractDSGEModel, vint::String,
         m <= Setting(:dataroot, joinpath(directory_path, "../../../save/input_data"))
     end
     if save_orig
-        m <= Setting(:saveroot, joinpath(directory_path, "../../../save_orig/"))
-        m <= Setting(:dataroot, joinpath(directory_path, "../../../save/input_data"))
+        if four_folders_down
+            m <= Setting(:saveroot, joinpath(directory_path, "../../../../save_orig/"))
+            m <= Setting(:dataroot, joinpath(directory_path, "../../../../save/input_data"))
+        else
+            m <= Setting(:saveroot, joinpath(directory_path, "../../../save_orig/"))
+            m <= Setting(:dataroot, joinpath(directory_path, "../../../save/input_data"))
+        end
     end
     m <= Setting(:data_id, dsid)
     m <= Setting(:cond_id, cdid)
