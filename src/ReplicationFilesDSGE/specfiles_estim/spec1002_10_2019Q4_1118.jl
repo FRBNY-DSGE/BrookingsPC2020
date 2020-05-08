@@ -31,7 +31,7 @@ df_first = df[Date(1964, 3, 1) .<= df[:date]  .<= Date(1989, 12, 31), :]
 df_second = df[Date(1990, 3, 1) .<= df[:date], :]
 
 
-my_procs = addprocs_frbny(200)
+my_procs = addprocs(200)
 @everywhere using DSGE, OrderedCollections, DSGEModels
 
 # FIRST
@@ -41,9 +41,9 @@ m <= Setting(:date_mainsample_start, DSGE.quartertodate("1964-Q3"))
 smc2(m, df_to_matrix(m, df_first))
 
 # SECOND
-#=m <= Setting(:period, "second", true, "period", "period for this exercse (first or second)")
+m <= Setting(:period, "second", true, "period", "period for this exercse (first or second)")
 m <= Setting(:date_presample_start, DSGE.quartertodate("1990-Q1")) # need to reset presample
 m <= Setting(:date_mainsample_start, DSGE.quartertodate("1990-Q3"))
-smc2(m, df_to_matrix(m, df_second))=#
+smc2(m, df_to_matrix(m, df_second))
 
 rmprocs(my_procs)
