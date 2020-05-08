@@ -85,6 +85,7 @@ end
 if run_irfs
     if do_add_workers
         addprocs_frbny(n_workers)
+        @everywhere include("../includeall.jl")
         @everywhere using DSGE, DSGEModels, OrderedCollections
     end
 

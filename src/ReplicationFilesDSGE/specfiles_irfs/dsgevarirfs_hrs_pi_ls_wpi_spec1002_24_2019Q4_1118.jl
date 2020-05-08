@@ -2,7 +2,7 @@ using DSGE, ModelConstructors, Dates, LinearAlgebra, Test
 include("../includeall.jl")
 # ENV["frbnyjuliamemory"] = "1G"
 
-save_orig = save_orig
+save_orig = true
 
 ## What to do?
 run_irfs         = false
@@ -86,6 +86,7 @@ end
 if run_irfs
     if do_add_workers
         addprocs_frbny(n_workers)
+        @everywhere include("../includeall.jl")
         @everywhere using DSGE, DSGEModels, OrderedCollections
     end
 
