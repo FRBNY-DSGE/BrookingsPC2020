@@ -1,3 +1,6 @@
+Before doing anything:
+Must run split_join_clouds.jl
+
 Default option is to use pre-saved estimation results to compute impulse responses/forecast/histograms and produce the figures. If you would like to change this, see instructions at bottom.
 
 Replicating Figure 6.1 (IRFs with separate estimations half1 and half2):
