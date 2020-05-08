@@ -1,13 +1,3 @@
-function altpolicy_settings!(m::AbstractModel, altpolicy::AltPolicy)
-    # I/O and data settings
-    dataroot = "/data/dsge_data_dir/dsgejl/input_data/"
-    saveroot = "/data/dsge_data_dir/dsgejl/"
-    m <= Setting(:dataroot, dataroot, "Input data directory path")
-    m <= Setting(:saveroot, saveroot, "Output data directory path")
-    m <= Setting(:use_population_forecast, true)
-    m <= Setting(:alternative_policy, altpolicy, false, "apol", "Alternative policy")
-end
-
 """
 ```
 plot_4line(m::AbstractDSGEModel, dfs::OrderedDict{Symbol, DataFrame},

@@ -1,6 +1,9 @@
 using DSGE, Dates, ModelConstructors, Plots, Plots.PlotMeasures, FileIO
+using Nullables
 include("../util.jl")
-include("$DSGEJL/ethan/proc/includeall.jl")
+include("../ait.jl")
+include("../plt.jl")
+include("../zero_pi_star.jl")
 
 mode = "smc"
 gap_value = 0.0
@@ -13,7 +16,7 @@ standard_spec!(m, data_vint)
 m <= Setting(:data_vintage, data_vint)
 m <= Setting(:date_forecast_start, quartertodate("2020-Q1"))
 
-m <= Setting(:saveroot, "../../../save/")
+m <= Setting(:saveroot, "../../../save_orig/")
 m <= Setting(:dataroot, "../../../save/input_data")
 
 m <= Setting(:date_regime2_start, Date(1990, 3, 31))
@@ -73,9 +76,9 @@ function new_forecast_model(yr::Int)
 end
 
 
-for yr in [1960, 1990]
-    for obs in [:obs_corepce, :obs_gdpdeflator, :MarginalCost, :Sinf_t, :πtil_t]
-        for e in ["_eps", ""]
+for yr in [1990] #[1960, 1990]
+    for obs in [:obs_corepce, :MarginalCost] #[:obs_corepce, :obs_gdpdeflator, :MarginalCost, :Sinf_t, :πtil_t]
+        for e in [""] #["_eps", ""]
             plots = Dict{Symbol, Plots.Plot}()
             plots[:plt] = plot()
             plots[:ait] = plot()
@@ -163,10 +166,10 @@ for yr in [1960, 1990]
             sys = compute_system(m_forecast)
             irf_s, irf_o, irf_p = impulse_responses(m_forecast, sys)
             plot!(irf_plot_b_sh, irf_p[m_forecast.pseudo_observables[obs], :, m_forecast.exogenous_shocks[:b_sh]], title = "$(string(DSGE.detexify(obs))) b shock", label = "R2 zetap", color = :red)
-            savefig(irf_plot_b_sh, "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_irf_b_sh_$(mode).pdf")
+            #savefig(irf_plot_b_sh, "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_irf_b_sh_$(mode).pdf")
 
             plot!(irf_plot_rm_sh, irf_p[m_forecast.pseudo_observables[obs], :, m_forecast.exogenous_shocks[:rm_sh]], title = "$(string(DSGE.detexify(obs))) rm shock", label = "R2 zetap", color = :red)
-            savefig(irf_plot_rm_sh, "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_irf_rm_sh_$(mode).pdf")
+            #savefig(irf_plot_rm_sh, "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_irf_rm_sh_$(mode).pdf")
 
 
             ### REGIME 1 PARAMETER VALUE (Blue) #i use ind2 in the vcat since that's for the history, but ind in the param_value since that's for the forecast
@@ -196,7 +199,7 @@ for yr in [1960, 1990]
                                                    last_val,
                                                    fcast[:forecastpseudo][m_forecast.pseudo_observables[obs], :])[end-84:end], label = "R1. Psi_pi = 300", color = :blue, linestyle = :dash)
 
-           savefig(plots[:psi], "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_forecast_$(yr)_$(mode)_psi.pdf")
+           #savefig(plots[:psi], "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_forecast_$(yr)_$(mode)_psi.pdf")
 
 
             m_forecast = Model1002("ss13")
@@ -293,7 +296,7 @@ for yr in [1960, 1990]
                                                            last_val,
                                                            fcast[:forecastpseudo][m_forecast.pseudo_observables[obs], :])[end-84:end],
                           label = "Post 1990 Slope, PLT", color = :red, linestyle = :dot)
-            savefig(plots[:plt], "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_forecast_$(yr)_$(mode)_$(gap_value)_plt$(e).pdf")
+            #savefig(plots[:plt], "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_forecast_$(yr)_$(mode)_$(gap_value)_plt$(e).pdf")
 
             # AIT. R2 Value
             m_forecast = Model1002("ss13")
@@ -440,10 +443,10 @@ for yr in [1960, 1990]
             sys = compute_system(m_forecast)
             irf_s, irf_o, irf_p = impulse_responses(m_forecast, sys)
             plot!(irf_plot_b_sh, irf_o[m_forecast.observables[obs], :, m_forecast.exogenous_shocks[:b_sh]], title = "$(string(DSGE.detexify(obs))) b shock", label = "R2", color = :red)
-            savefig(irf_plot_b_sh, "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_irf_b_sh_$(mode).pdf")
+            #savefig(irf_plot_b_sh, "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_irf_b_sh_$(mode).pdf")
 
             plot!(irf_plot_rm_sh, irf_o[m_forecast.observables[obs], :, m_forecast.exogenous_shocks[:rm_sh]], title = "$(string(DSGE.detexify(obs))) rm shock", label = "R2", color = :red)
-            savefig(irf_plot_rm_sh, "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_irf_rm_sh_$(mode).pdf")
+            #savefig(irf_plot_rm_sh, "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_irf_rm_sh_$(mode).pdf")
 
 
             # R2, raise psi pi
@@ -463,7 +466,7 @@ for yr in [1960, 1990]
                   color = :red,
                   linestyle = :dash)
 
-           savefig(plots[:psi], "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_forecast_$(yr)_$(mode)_psi.pdf")
+           #savefig(plots[:psi], "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_forecast_$(yr)_$(mode)_psi.pdf")
 
             # PLT. R2 Value
             m_forecast = Model1002("ss13")
@@ -478,7 +481,7 @@ for yr in [1960, 1990]
             plot!(plots[:plt], dates, 4*vcat(repeat([NaN], size(dat, 1)-1),
                                    dat[end, obs],
                                    fcast[:forecastobs][m_forecast.observables[obs],:]), label = "Post 1990 Slope, PLT", color = :red, linestyle = :dot)
-            savefig(plots[:plt], "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_forecast_$(yr)_$(mode)_$(gap_value)_plt$(e).pdf")
+            #savefig(plots[:plt], "$(savepath)/output_data/m1002/ss10/forecast/figures/$(DSGE.detexify(obs))_forecast_$(yr)_$(mode)_$(gap_value)_plt$(e).pdf")
 
             # AIT. R2 Value
             m_forecast = Model1002("ss13")
