@@ -42,4 +42,10 @@ Replicating Figure C3 (IRFs with separate estimations half1 and half2):
 Replicating Figure C4 (histograms with regime-switching Phillips curve slope):
 - See figure 6.4 (that script also replicates this figure)
 
-If you would like to use the (optional) SMC estimations you ran instead of the ones we used, just set save_orig = false at the top of each script.
+
+To re-run the SMC esimations used for all of our results, go to specfiles_estim and re-run the following three scripts (they add parallel workers, so you will need to change those lines to fit the protocal used on your local cluster). With 100 workers, they could take up to a day to run.
+ - spec1002_10_2019Q4_1118.jl
+ - spec1002_22_2019Q4_1118.jl
+ - spec1002_24_2019Q4_1118.jl
+
+If you would like to use these new SMC estimations you ran instead of the ones we used, just set save_orig = false at the top of each script.
