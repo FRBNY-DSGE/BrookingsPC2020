@@ -1,5 +1,5 @@
 using SMC
-split = true
+split = false
 
 fp = "../../save_orig/output_data/m1002"
 
