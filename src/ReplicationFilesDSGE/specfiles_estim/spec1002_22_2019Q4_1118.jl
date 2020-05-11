@@ -27,7 +27,8 @@ m <= Setting(:date_regime2_start_text, "900331", true, "reg2start", "The text ve
 
 df = load_data(m)
 
-m <= Setting(:n_particles, 15000)
+m <= Setting(:n_particles, 20000, true, "npart", "") #15000)
+m <= Setting(:friday, true, true, "friday", "")
 m <= Setting(:n_smc_blocks, 5)
 m <= Setting(:n_mh_steps_smc, 1)
 m <= Setting(:use_parallel_workers, true)
