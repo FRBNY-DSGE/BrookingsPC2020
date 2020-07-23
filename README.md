@@ -30,7 +30,8 @@ DSGE results
 
    d. If, after running this replication code, you would like to use the most
       current version of DSGE.jl, go into Pkg mode, enter `rm DSGE`, and enter `add DSGE`.
-      To use the most current version of smc, go into Pkg mode and enter `free SMC`.
+      To use the most current version of SMC, go into Pkg mode and enter `free SMC`.
+      Do the same steps for using the most current version of StateSpaceRoutines.
 
 ## Installing this repository
 
