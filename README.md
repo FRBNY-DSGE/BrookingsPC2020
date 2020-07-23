@@ -25,6 +25,8 @@ DSGE results
    b. Enter `add https://github.com/FRBNY-DSGE/DSGE.jl#brookings_pc`
 
    c. Enter `add SMC`, followed by `pin SMC@v0.1.6`.
+   
+   d. Enter `add StateSpaceRoutines`, followed by `pin StateSpaceRoutines@v0.3.1`.
 
    d. If, after running this replication code, you would like to use the most
       current version of DSGE.jl, go into Pkg mode, enter `rm DSGE`, and enter `add DSGE`.
