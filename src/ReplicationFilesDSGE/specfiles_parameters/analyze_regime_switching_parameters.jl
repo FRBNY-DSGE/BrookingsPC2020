@@ -4,6 +4,7 @@ using DSGEModels, Printf, DataFrames
 using Nullables, KernelDensity
 
 save_orig = true
+fig_type = "svg"
 
 outer = nothing
 include("../df_to_tex.jl")
@@ -11,7 +12,8 @@ include("../util.jl")
 
 gr()
 GR.inline("pdf")
-GR.inline("png")
+# GR.inline("png")
+GR.inline("svg")
 fp = dirname(@__FILE__)
 vint = "191118"
 
@@ -134,7 +136,7 @@ for model in ["m1002"]
                     @show ss
                     @show "$figure_save_path$(param_label)_$(period)_$(reg_split)"
                     plot_regime_hist_comp(m, draws, mode,
-                                          "$figure_save_path/$(param_label)_$(period)_$(reg_split)",
+                                          "$figure_save_path/$(param_label)_$(period)_$(reg_split).$(fig_type)",
                                           ind_pair[1], ind_pair[2],
                                           "$param_label, $prior,  $period, $reg_split")
                 end
@@ -184,8 +186,7 @@ for model in ["m1002"]
                                   xlims = (start, stop), normalize = :pdf)
                         end
 
-                        savefig(p, "$(figure_save_path)/$(param_label)_$(period)_$(reg_split).png")
-                        savefig(p, "$(figure_save_path)/$(param_label)_$(period)_$(reg_split).svg")
+                        savefig(p, "$(figure_save_path)/$(param_label)_$(period)_$(reg_split).$(fig_type)")
                     end
                 end
             end

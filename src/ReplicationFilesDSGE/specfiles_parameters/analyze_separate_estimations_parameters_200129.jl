@@ -4,6 +4,7 @@ using Plots.PlotMeasures
 using KernelDensity
 
 save_orig = true
+fig_type = "svg"
 
 outdir = if save_orig
     "save_orig"
@@ -148,9 +149,8 @@ for model in ["m1002"]
                               label = "Prior", color = :black, normalize = :pdf,
                               xlims = (start, stop))
 
-                        savefig(p, "$(figure_save_path)/$(param_label)_$(ZLB).png")
-                        savefig(p, "$(figure_save_path)/$(param_label)_$(ZLB).svg")
-                        add_tex(fid, "$(fp)/../../../$(outdir)/output_data/$(model)/$(subspec(m))/estimate/figures/$(param_label)_$(ZLB).png")
+                        savefig(p, "$(figure_save_path)/$(param_label)_$(ZLB).$(fig_type)")
+                        add_tex(fid, "$(fp)/../../../$(outdir)/output_data/$(model)/$(subspec(m))/estimate/figures/$(param_label)_$(ZLB).(fig_type)")
                     end
                     if model == "m1002"
                         kdep, kdew = draw_κ(m)
@@ -200,9 +200,8 @@ for model in ["m1002"]
                                 plot!(p, kdew.x, kdew.density, label = "Prior", color = :black,
                                       xlims = (start, stop), normalize = :pdf)
                             end
-                            savefig(p, "$(figure_save_path)/$(param_label)_$(ZLB).png")
-                            savefig(p, "$(figure_save_path)/$(param_label)_$(ZLB).svg")
-                            add_tex(fid, "$(fp)/../../../$(outdir)/output_data/$(model)/$(subspec(m))/estimate/figures/$(param_label)_$(ZLB).png")
+                            savefig(p, "$(figure_save_path)/$(param_label)_$(ZLB).$(fig_type)")
+                            add_tex(fid, "$(fp)/../../../$(outdir)/output_data/$(model)/$(subspec(m))/estimate/figures/$(param_label)_$(ZLB).$(fig_type)")
                         end
                     end
                 catch err
