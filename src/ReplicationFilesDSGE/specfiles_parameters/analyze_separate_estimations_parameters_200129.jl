@@ -149,6 +149,7 @@ for model in ["m1002"]
                               xlims = (start, stop))
 
                         savefig(p, "$(figure_save_path)/$(param_label)_$(ZLB).png")
+                        savefig(p, "$(figure_save_path)/$(param_label)_$(ZLB).svg")
                         add_tex(fid, "$(fp)/../../../$(outdir)/output_data/$(model)/$(subspec(m))/estimate/figures/$(param_label)_$(ZLB).png")
                     end
                     if model == "m1002"
@@ -200,6 +201,7 @@ for model in ["m1002"]
                                       xlims = (start, stop), normalize = :pdf)
                             end
                             savefig(p, "$(figure_save_path)/$(param_label)_$(ZLB).png")
+                            savefig(p, "$(figure_save_path)/$(param_label)_$(ZLB).svg")
                             add_tex(fid, "$(fp)/../../../$(outdir)/output_data/$(model)/$(subspec(m))/estimate/figures/$(param_label)_$(ZLB).png")
                         end
                     end

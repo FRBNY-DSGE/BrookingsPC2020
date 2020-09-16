@@ -185,6 +185,7 @@ for model in ["m1002"]
                         end
 
                         savefig(p, "$(figure_save_path)/$(param_label)_$(period)_$(reg_split).png")
+                        savefig(p, "$(figure_save_path)/$(param_label)_$(period)_$(reg_split).svg")
                     end
                 end
             end
