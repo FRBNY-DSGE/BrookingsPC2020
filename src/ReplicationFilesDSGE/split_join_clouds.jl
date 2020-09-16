@@ -1,5 +1,5 @@
 using SMC
-split = false
+is_split = false
 
 fp = "../../save_orig/output_data/m1002"
 
@@ -21,7 +21,7 @@ filenames = ["$(fp)/ss10/estimate/raw/smc_cloud_npart=15000_period=r1_preZLB=tru
 
 
 for filename in filenames
-    if split
+    if is_split
         split_cloud(filename, 4)
     else
         join_cloud(filename, 4)
