@@ -2,6 +2,7 @@ clear all
 cd ..
 addpath([cd '/GLPreplicationWeb']);
 addpath([cd '/GLPreplicationWeb/subroutines']);
+figpath = [pwd(), '/../../figures/'];
 
 % load the data and assign variable names
 LoadDataAssignVariableNames
@@ -63,7 +64,7 @@ sIRF2 = sort(Dirf2,3);
 qqq=[.025 .16 .5 .84 .975];         % percentiles of the posterior distribution
 indfig=[1 3 4 7 10 8 5 6 9];        % variable position of responses to plot
 
-figure('Position', [0, 0, 700, 600]);
+p = figure('Position', [0, 0, 700, 600]);
 count=0;
 for jn = indfig
     count=count+1;
@@ -76,3 +77,6 @@ for jn = indfig
     title(series(jn));
 end
 aux=subplot(3,3,1); plots=get(gca, 'Children'); legend(plots([6 3]),{'pre 1990','post 1990'},'Location','northeast');
+
+saveas(p, [figpath, 'Figure4'], 'eps');
+saveas(p, [figpath, 'Figure4'], 'svg');

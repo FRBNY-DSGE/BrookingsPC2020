@@ -2,6 +2,7 @@ clear all
 cd ..
 addpath([cd '/GLPreplicationWeb']);
 addpath([cd '/GLPreplicationWeb/subroutines']);
+figpath = [pwd(), '/../../figures/'];
 
 % load the data and assign variable names
 LoadDataAssignVariableNames
@@ -69,7 +70,7 @@ for ii=1:ndraws
 end
 
 % plot the histograms of alpha and kappa
-figure('Position', [0, 0, 700, 300]);
+p = figure('Position', [0, 0, 700, 300]);
 subplot(1,2,1); histogram(AK2(:,1),30,'Normalization','pdf','FaceColor',[.2157, .4941, .7216]); hold on
     histogram(AK1(:,1),30,'Normalization','pdf','FaceColor',[.8941, .1020, .1098])
     xlabel('\alpha')
@@ -77,3 +78,5 @@ subplot(1,2,1); histogram(AK2(:,1),30,'Normalization','pdf','FaceColor',[.2157, 
 subplot(1,2,2); histogram(AK2(:,2),30,'Normalization','pdf','FaceColor',[.2157, .4941, .7216]); hold on
     histogram(AK1(:,2),30,'Normalization','pdf','FaceColor',[.8941, .1020, .1098])
     xlabel('\kappa')
+saveas(p, [figpath, 'Figure6'], 'eps');
+saveas(p, [figpath, 'Figure6'], 'svg');
