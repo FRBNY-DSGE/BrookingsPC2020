@@ -1,5 +1,5 @@
 using DSGE, Plots, SMC, JLD2, FileIO, Statistics, Dates, ModelConstructors
-using DSGEModels, Printf, DataFrames, ColorTypes, Nullables
+using Printf, DataFrames, ColorTypes, Nullables
 using Plots.PlotMeasures
 using KernelDensity
 
@@ -35,7 +35,7 @@ for model in ["m1002"]
     else
         @printf fid "\\section{%s -- Half 1, Half2}" model
     end
-    for pr in ["diffuse", "standard"]
+    for pr in ["standard"] # ["diffuse", "standard"]
         @printf fid "\\subsection{%s}" pr
     if model == "m1002"
         if pr == "diffuse"
